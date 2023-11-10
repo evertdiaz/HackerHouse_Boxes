@@ -1,0 +1,64 @@
+{
+  "name": "Boxmanager",
+  "desc": "",
+  "methods": [
+    {
+      "name": "boxCreate",
+      "args": [
+        {
+          "name": "MBRPayment",
+          "type": "pay",
+          "desc": ""
+        },
+        {
+          "name": "data",
+          "type": "string",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "getBoxData",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "string",
+        "desc": ""
+      }
+    },
+    {
+      "name": "boxUpdate",
+      "args": [
+        {
+          "name": "MBRPayment",
+          "type": "pay",
+          "desc": ""
+        },
+        {
+          "name": "data",
+          "type": "string",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "createApplication",
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      },
+      "args": []
+    }
+  ]
+}

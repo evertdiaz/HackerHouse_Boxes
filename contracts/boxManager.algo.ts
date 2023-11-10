@@ -2,46 +2,36 @@ import { Contract } from '@algorandfoundation/tealscript';
 
 // eslint-disable-next-line no-unused-vars
 class Boxmanager extends Contract {
-  /**
-   * Calculates the sum of two numbers
-   *
-   * @param a
-   * @param b
-   * @returns The sum of a and b
-   */
-  private getSum(a: number, b: number): number {
-    return a + b;
+  myBox = BoxMap<Address, string>();
+
+  boxCreate(MBRPayment: PayTxn, data: string): void {
+    assert(!this.myBox(this.txn.sender).exists);
+
+    const preBoxMBR = this.app.address.minBalance;
+    this.myBox(this.txn.sender).value = data;
+
+    verifyTxn(MBRPayment, {
+      receiver: this.app.address,
+      amount: this.app.address.minBalance - preBoxMBR,
+    });
   }
 
-  /**
-   * Calculates the difference between two numbers
-   *
-   * @param a
-   * @param b
-   * @returns The difference between a and b.
-   */
-  private getDifference(a: number, b: number): number {
-    return a >= b ? a - b : b - a;
+  getBoxData(): string {
+    return this.myBox(this.txn.sender).value;
   }
 
-  /**
-   * A method that takes two numbers and does either addition or subtraction
-   *
-   * @param a The first number
-   * @param b The second number
-   * @param operation The operation to perform. Can be either 'sum' or 'difference'
-   *
-   * @returns The result of the operation
-   */
-  doMath(a: number, b: number, operation: string): number {
-    let result: number;
+  boxUpdate(MBRPayment: PayTxn, data: string): void {
+    assert(this.myBox(this.txn.sender).exists);
+    const preBoxMBR = this.app.address.minBalance;
+    this.myBox(this.txn.sender).value = data;
+    const balanceDiff =
+      this.app.address.minBalance - preBoxMBR < 0
+        ? preBoxMBR - this.app.address.minBalance
+        : this.app.address.minBalance - preBoxMBR;
 
-    if (operation === 'sum') {
-      result = this.getSum(a, b);
-    } else if (operation === 'difference') {
-      result = this.getDifference(a, b);
-    } else throw Error('Invalid operation');
-
-    return result;
+    verifyTxn(MBRPayment, {
+      receiver: this.app.address,
+      amount: balanceDiff,
+    });
   }
 }
