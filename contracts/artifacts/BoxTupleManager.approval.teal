@@ -22,7 +22,7 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// createTupleBox(string,string,pay)void
+// createTupleBox(string,string)void
 abi_route_createTupleBox:
 	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
 
@@ -34,30 +34,20 @@ abi_route_createTupleBox:
 	txna ApplicationArgs 1
 	extract 2 0
 
-	// MBRPayment: pay
-	txn GroupIndex
-	int 1
-	-
-	dup
-	gtxns TypeEnum
-	int pay
-	==
-	assert
-
-	// execute createTupleBox(string,string,pay)void
+	// execute createTupleBox(string,string)void
 	callsub createTupleBox
 	int 1
 	return
 
 createTupleBox:
-	proto 4 0
+	proto 3 0
 
 	// contracts/boxTupleManager.algo.ts:10
 	// contact: Contact = { name: name, company: company }
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0004 // initial head offset
-	frame_dig -2 // name: bytes
+	frame_dig -1 // name: bytes
 	dup
 	len
 	itob
@@ -65,7 +55,7 @@ createTupleBox:
 	swap
 	concat
 	callsub process_dynamic_tuple_element
-	frame_dig -3 // company: bytes
+	frame_dig -2 // company: bytes
 	dup
 	len
 	itob
@@ -75,7 +65,7 @@ createTupleBox:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury -4 // contact: Contact
+	frame_bury -3 // contact: Contact
 
 	// contracts/boxTupleManager.algo.ts:11
 	// this.contacts(this.txn.sender).value = contact
@@ -83,7 +73,7 @@ createTupleBox:
 	dup
 	box_del
 	pop
-	frame_dig -4 // contact: Contact
+	frame_dig -3 // contact: Contact
 	box_put
 	retsub
 
@@ -280,7 +270,7 @@ create_NoOp:
 	err
 
 call_NoOp:
-	method "createTupleBox(pay,string,string)void"
+	method "createTupleBox(string,string)void"
 	method "updateTupleField(string,string)void"
 	method "getTupleBoxData()(string,string)"
 	txna ApplicationArgs 0

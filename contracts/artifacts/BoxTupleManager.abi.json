@@ -6,11 +6,6 @@
       "name": "createTupleBox",
       "args": [
         {
-          "name": "MBRPayment",
-          "type": "pay",
-          "desc": ""
-        },
-        {
           "name": "name",
           "type": "string",
           "desc": ""

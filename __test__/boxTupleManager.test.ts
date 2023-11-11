@@ -33,21 +33,10 @@ describe('Boxmanager', () => {
 
   test('createTupleBox', async () => {
     name = 'Evert';
-    company = 'HackerHouse';
-    await appClient.appClient.fundAppAccount(algokit.microAlgos(100_000));
+    company = 'Algorand';
+    await appClient.appClient.fundAppAccount(algokit.microAlgos(123_700));
 
-    const { appAddress } = await appClient.appClient.getAppReference();
-
-    const MBRPayment = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
-      from: testAccount.addr,
-      to: appAddress,
-      amount: 24_900,
-      suggestedParams: await algokit.getTransactionParams(undefined, algod),
-    });
-    await appClient.createTupleBox(
-      { MBRPayment, name, company },
-      { boxes: [algosdk.decodeAddress(testAccount.addr).publicKey] }
-    );
+    await appClient.createTupleBox({ name, company }, { boxes: [algosdk.decodeAddress(testAccount.addr).publicKey] });
   });
   test('getTupleBoxData', async () => {
     const dataFromMethod = await appClient.getTupleBoxData(
@@ -58,17 +47,19 @@ describe('Boxmanager', () => {
   });
   test('updateTupleField', async () => {
     const field = 'company';
-    company = 'Algorand Foundation';
-    await appClient.appClient.fundAppAccount(algokit.microAlgos(3_200));
+    const newCompany = 'Algorand Foundation';
+    const costPerByte = 400;
+    const mbrDiff = (newCompany.length - company.length) * costPerByte;
+    await appClient.appClient.fundAppAccount(algokit.microAlgos(mbrDiff));
 
     await appClient.updateTupleField(
-      { field, value: company },
+      { field, value: newCompany },
       { boxes: [algosdk.decodeAddress(testAccount.addr).publicKey] }
     );
     const dataFromMethod = await appClient.getTupleBoxData(
       {},
       { boxes: [algosdk.decodeAddress(testAccount.addr).publicKey] }
     );
-    expect(dataFromMethod.return?.valueOf()).toEqual([name, company]);
+    expect(dataFromMethod.return?.valueOf()).toEqual([name, newCompany]);
   });
 });

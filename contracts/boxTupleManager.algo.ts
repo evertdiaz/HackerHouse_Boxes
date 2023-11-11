@@ -6,7 +6,7 @@ type Contact = { name: string; company: string };
 class BoxTupleManager extends Contract {
   contacts = BoxMap<Address, Contact>();
 
-  createTupleBox(MBRPayment: PayTxn, name: string, company: string): void {
+  createTupleBox(name: string, company: string): void {
     const contact: Contact = { name: name, company: company };
     this.contacts(this.txn.sender).value = contact;
   }
