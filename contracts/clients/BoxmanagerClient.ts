@@ -26,17 +26,17 @@ import { SendTransactionResult, TransactionToSign, SendTransactionFrom } from '@
 import { Algodv2, OnApplicationComplete, Transaction, TransactionWithSigner, AtomicTransactionComposer } from 'algosdk'
 export const APP_SPEC: AppSpec = {
   "hints": {
-    "boxCreate(pay,string)void": {
+    "createStringBox(pay,string)void": {
       "call_config": {
         "no_op": "CALL"
       }
     },
-    "getBoxData()string": {
+    "getStringBoxData()string": {
       "call_config": {
         "no_op": "CALL"
       }
     },
-    "boxUpdate(pay,string)void": {
+    "updateStringBox(pay,string)void": {
       "call_config": {
         "no_op": "CALL"
       }
@@ -75,7 +75,7 @@ export const APP_SPEC: AppSpec = {
     }
   },
   "source": {
-    "approval": "I3ByYWdtYSB2ZXJzaW9uIDkKCi8vIFRoaXMgVEVBTCB3YXMgZ2VuZXJhdGVkIGJ5IFRFQUxTY3JpcHQgdjAuNTkuMAovLyBodHRwczovL2dpdGh1Yi5jb20vYWxnb3JhbmRmb3VuZGF0aW9uL1RFQUxTY3JpcHQKCi8vIFRoaXMgY29udHJhY3QgaXMgY29tcGxpYW50IHdpdGggYW5kL29yIGltcGxlbWVudHMgdGhlIGZvbGxvd2luZyBBUkNzOiBbIEFSQzQgXQoKLy8gVGhlIGZvbGxvd2luZyB0ZW4gbGluZXMgb2YgVEVBTCBoYW5kbGUgaW5pdGlhbCBwcm9ncmFtIGZsb3cKLy8gVGhpcyBwYXR0ZXJuIGlzIHVzZWQgdG8gbWFrZSBpdCBlYXN5IGZvciBhbnlvbmUgdG8gcGFyc2UgdGhlIHN0YXJ0IG9mIHRoZSBwcm9ncmFtIGFuZCBkZXRlcm1pbmUgaWYgYSBzcGVjaWZpYyBhY3Rpb24gaXMgYWxsb3dlZAovLyBIZXJlLCBhY3Rpb24gcmVmZXJzIHRvIHRoZSBPbkNvbXBsZXRlIGluIGNvbWJpbmF0aW9uIHdpdGggd2hldGhlciB0aGUgYXBwIGlzIGJlaW5nIGNyZWF0ZWQgb3IgY2FsbGVkCi8vIEV2ZXJ5IHBvc3NpYmxlIGFjdGlvbiBmb3IgdGhpcyBjb250cmFjdCBpcyByZXByZXNlbnRlZCBpbiB0aGUgc3dpdGNoIHN0YXRlbWVudAovLyBJZiB0aGUgYWN0aW9uIGlzIG5vdCBpbXBsbWVudGVkIGluIHRoZSBjb250cmFjdCwgaXRzIHJlcHNlY3RpdmUgYnJhbmNoIHdpbGwgYmUgIk5PVF9JTVBMTUVOVEVEIiB3aGljaCBqdXN0IGNvbnRhaW5zICJlcnIiCnR4biBBcHBsaWNhdGlvbklECmludCAwCj4KaW50IDYKKgp0eG4gT25Db21wbGV0aW9uCisKc3dpdGNoIGNyZWF0ZV9Ob09wIE5PVF9JTVBMRU1FTlRFRCBOT1RfSU1QTEVNRU5URUQgTk9UX0lNUExFTUVOVEVEIE5PVF9JTVBMRU1FTlRFRCBOT1RfSU1QTEVNRU5URUQgY2FsbF9Ob09wCgpOT1RfSU1QTEVNRU5URUQ6CgllcnIKCi8vIGJveENyZWF0ZShzdHJpbmcscGF5KXZvaWQKYWJpX3JvdXRlX2JveENyZWF0ZToKCWJ5dGUgMHggLy8gcHVzaCBlbXB0eSBieXRlcyB0byBmaWxsIHRoZSBzdGFjayBmcmFtZSBmb3IgdGhpcyBzdWJyb3V0aW5lJ3MgbG9jYWwgdmFyaWFibGVzCgoJLy8gZGF0YTogc3RyaW5nCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglleHRyYWN0IDIgMAoKCS8vIE1CUlBheW1lbnQ6IHBheQoJdHhuIEdyb3VwSW5kZXgKCWludCAxCgktCglkdXAKCWd0eG5zIFR5cGVFbnVtCglpbnQgcGF5Cgk9PQoJYXNzZXJ0CgoJLy8gZXhlY3V0ZSBib3hDcmVhdGUoc3RyaW5nLHBheSl2b2lkCgljYWxsc3ViIGJveENyZWF0ZQoJaW50IDEKCXJldHVybgoKYm94Q3JlYXRlOgoJcHJvdG8gMyAwCgoJLy8gY29udHJhY3RzL2JveE1hbmFnZXIuYWxnby50czo4CgkvLyBhc3NlcnQoIXRoaXMubXlCb3godGhpcy50eG4uc2VuZGVyKS5leGlzdHMpCgl0eG4gU2VuZGVyCglib3hfbGVuCglzd2FwCglwb3AKCSEKCWFzc2VydAoKCS8vIGNvbnRyYWN0cy9ib3hNYW5hZ2VyLmFsZ28udHM6MTAKCS8vIHByZUJveE1CUiA9IHRoaXMuYXBwLmFkZHJlc3MubWluQmFsYW5jZQoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWFjY3RfcGFyYW1zX2dldCBBY2N0TWluQmFsYW5jZQoJYXNzZXJ0CglmcmFtZV9idXJ5IC0zIC8vIHByZUJveE1CUjogdWludDY0CgoJLy8gY29udHJhY3RzL2JveE1hbmFnZXIuYWxnby50czoxMQoJLy8gdGhpcy5teUJveCh0aGlzLnR4bi5zZW5kZXIpLnZhbHVlID0gZGF0YQoJdHhuIFNlbmRlcgoJZHVwCglib3hfZGVsCglwb3AKCWZyYW1lX2RpZyAtMiAvLyBkYXRhOiBieXRlcwoJZHVwCglsZW4KCWl0b2IKCWV4dHJhY3QgNiAyCglzd2FwCgljb25jYXQKCWJveF9wdXQKCgkvLyBjb250cmFjdHMvYm94TWFuYWdlci5hbGdvLnRzOjEzCgkvLyB2ZXJpZnlUeG4oTUJSUGF5bWVudCwgewoJLy8gICAgICAgcmVjZWl2ZXI6IHRoaXMuYXBwLmFkZHJlc3MsCgkvLyAgICAgICBhbW91bnQ6IHRoaXMuYXBwLmFkZHJlc3MubWluQmFsYW5jZSAtIHByZUJveE1CUiwKCS8vICAgICB9KQoJLy8gdmVyaWZ5IHJlY2VpdmVyCglmcmFtZV9kaWcgLTEgLy8gTUJSUGF5bWVudDogcGF5CglndHhucyBSZWNlaXZlcgoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCT09Cglhc3NlcnQKCgkvLyB2ZXJpZnkgYW1vdW50CglmcmFtZV9kaWcgLTEgLy8gTUJSUGF5bWVudDogcGF5CglndHhucyBBbW91bnQKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglhY2N0X3BhcmFtc19nZXQgQWNjdE1pbkJhbGFuY2UKCWFzc2VydAoJZnJhbWVfZGlnIC0zIC8vIHByZUJveE1CUjogdWludDY0CgktCgk9PQoJYXNzZXJ0CglyZXRzdWIKCi8vIGdldEJveERhdGEoKXN0cmluZwphYmlfcm91dGVfZ2V0Qm94RGF0YToKCS8vIGV4ZWN1dGUgZ2V0Qm94RGF0YSgpc3RyaW5nCgljYWxsc3ViIGdldEJveERhdGEKCWludCAxCglyZXR1cm4KCmdldEJveERhdGE6Cglwcm90byAwIDAKCgkvLyBjb250cmFjdHMvYm94TWFuYWdlci5hbGdvLnRzOjIwCgkvLyByZXR1cm4gdGhpcy5teUJveCh0aGlzLnR4bi5zZW5kZXIpLnZhbHVlOwoJdHhuIFNlbmRlcgoJYm94X2dldAoJYXNzZXJ0CglleHRyYWN0IDIgMAoJZHVwCglsZW4KCWl0b2IKCWV4dHJhY3QgNiAyCglzd2FwCgljb25jYXQKCWJ5dGUgMHgxNTFmN2M3NQoJc3dhcAoJY29uY2F0Cglsb2cKCXJldHN1YgoKLy8gYm94VXBkYXRlKHN0cmluZyxwYXkpdm9pZAphYmlfcm91dGVfYm94VXBkYXRlOgoJYnl0ZSAweDsgZHVwIC8vIHB1c2ggZW1wdHkgYnl0ZXMgdG8gZmlsbCB0aGUgc3RhY2sgZnJhbWUgZm9yIHRoaXMgc3Vicm91dGluZSdzIGxvY2FsIHZhcmlhYmxlcwoKCS8vIGRhdGE6IHN0cmluZwoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZXh0cmFjdCAyIDAKCgkvLyBNQlJQYXltZW50OiBwYXkKCXR4biBHcm91cEluZGV4CglpbnQgMQoJLQoJZHVwCglndHhucyBUeXBlRW51bQoJaW50IHBheQoJPT0KCWFzc2VydAoKCS8vIGV4ZWN1dGUgYm94VXBkYXRlKHN0cmluZyxwYXkpdm9pZAoJY2FsbHN1YiBib3hVcGRhdGUKCWludCAxCglyZXR1cm4KCmJveFVwZGF0ZToKCXByb3RvIDQgMAoKCS8vIGNvbnRyYWN0cy9ib3hNYW5hZ2VyLmFsZ28udHM6MjQKCS8vIGFzc2VydCh0aGlzLm15Qm94KHRoaXMudHhuLnNlbmRlcikuZXhpc3RzKQoJdHhuIFNlbmRlcgoJYm94X2xlbgoJc3dhcAoJcG9wCglhc3NlcnQKCgkvLyBjb250cmFjdHMvYm94TWFuYWdlci5hbGdvLnRzOjI1CgkvLyBwcmVCb3hNQlIgPSB0aGlzLmFwcC5hZGRyZXNzLm1pbkJhbGFuY2UKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglhY2N0X3BhcmFtc19nZXQgQWNjdE1pbkJhbGFuY2UKCWFzc2VydAoJZnJhbWVfYnVyeSAtMyAvLyBwcmVCb3hNQlI6IHVpbnQ2NAoKCS8vIGNvbnRyYWN0cy9ib3hNYW5hZ2VyLmFsZ28udHM6MjYKCS8vIHRoaXMubXlCb3godGhpcy50eG4uc2VuZGVyKS52YWx1ZSA9IGRhdGEKCXR4biBTZW5kZXIKCWR1cAoJYm94X2RlbAoJcG9wCglmcmFtZV9kaWcgLTIgLy8gZGF0YTogYnl0ZXMKCWR1cAoJbGVuCglpdG9iCglleHRyYWN0IDYgMgoJc3dhcAoJY29uY2F0Cglib3hfcHV0CgoJLy8gY29udHJhY3RzL2JveE1hbmFnZXIuYWxnby50czoyNwoJLy8gYmFsYW5jZURpZmYgPQoJLy8gICAgICAgdGhpcy5hcHAuYWRkcmVzcy5taW5CYWxhbmNlIC0gcHJlQm94TUJSIDwgMAoJLy8gICAgICAgICA/IHByZUJveE1CUiAtIHRoaXMuYXBwLmFkZHJlc3MubWluQmFsYW5jZQoJLy8gICAgICAgICA6IHRoaXMuYXBwLmFkZHJlc3MubWluQmFsYW5jZSAtIHByZUJveE1CUgoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWFjY3RfcGFyYW1zX2dldCBBY2N0TWluQmFsYW5jZQoJYXNzZXJ0CglmcmFtZV9kaWcgLTMgLy8gcHJlQm94TUJSOiB1aW50NjQKCS0KCWludCAwCgk8CglieiB0ZXJuYXJ5MV9mYWxzZQoJZnJhbWVfZGlnIC0zIC8vIHByZUJveE1CUjogdWludDY0CglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJYWNjdF9wYXJhbXNfZ2V0IEFjY3RNaW5CYWxhbmNlCglhc3NlcnQKCS0KCWIgdGVybmFyeTFfZW5kCgp0ZXJuYXJ5MV9mYWxzZToKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglhY2N0X3BhcmFtc19nZXQgQWNjdE1pbkJhbGFuY2UKCWFzc2VydAoJZnJhbWVfZGlnIC0zIC8vIHByZUJveE1CUjogdWludDY0CgktCgp0ZXJuYXJ5MV9lbmQ6CglmcmFtZV9idXJ5IC00IC8vIGJhbGFuY2VEaWZmOiB1aW50NjQKCgkvLyBjb250cmFjdHMvYm94TWFuYWdlci5hbGdvLnRzOjMyCgkvLyB2ZXJpZnlUeG4oTUJSUGF5bWVudCwgewoJLy8gICAgICAgcmVjZWl2ZXI6IHRoaXMuYXBwLmFkZHJlc3MsCgkvLyAgICAgICBhbW91bnQ6IGJhbGFuY2VEaWZmLAoJLy8gICAgIH0pCgkvLyB2ZXJpZnkgcmVjZWl2ZXIKCWZyYW1lX2RpZyAtMSAvLyBNQlJQYXltZW50OiBwYXkKCWd0eG5zIFJlY2VpdmVyCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJPT0KCWFzc2VydAoKCS8vIHZlcmlmeSBhbW91bnQKCWZyYW1lX2RpZyAtMSAvLyBNQlJQYXltZW50OiBwYXkKCWd0eG5zIEFtb3VudAoJZnJhbWVfZGlnIC00IC8vIGJhbGFuY2VEaWZmOiB1aW50NjQKCT09Cglhc3NlcnQKCXJldHN1YgoKYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uOgoJaW50IDEKCXJldHVybgoKY3JlYXRlX05vT3A6CgltZXRob2QgImNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uCgllcnIKCmNhbGxfTm9PcDoKCW1ldGhvZCAiYm94Q3JlYXRlKHBheSxzdHJpbmcpdm9pZCIKCW1ldGhvZCAiZ2V0Qm94RGF0YSgpc3RyaW5nIgoJbWV0aG9kICJib3hVcGRhdGUocGF5LHN0cmluZyl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggYWJpX3JvdXRlX2JveENyZWF0ZSBhYmlfcm91dGVfZ2V0Qm94RGF0YSBhYmlfcm91dGVfYm94VXBkYXRlCgllcnI=",
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDkKCi8vIFRoaXMgVEVBTCB3YXMgZ2VuZXJhdGVkIGJ5IFRFQUxTY3JpcHQgdjAuNTkuMAovLyBodHRwczovL2dpdGh1Yi5jb20vYWxnb3JhbmRmb3VuZGF0aW9uL1RFQUxTY3JpcHQKCi8vIFRoaXMgY29udHJhY3QgaXMgY29tcGxpYW50IHdpdGggYW5kL29yIGltcGxlbWVudHMgdGhlIGZvbGxvd2luZyBBUkNzOiBbIEFSQzQgXQoKLy8gVGhlIGZvbGxvd2luZyB0ZW4gbGluZXMgb2YgVEVBTCBoYW5kbGUgaW5pdGlhbCBwcm9ncmFtIGZsb3cKLy8gVGhpcyBwYXR0ZXJuIGlzIHVzZWQgdG8gbWFrZSBpdCBlYXN5IGZvciBhbnlvbmUgdG8gcGFyc2UgdGhlIHN0YXJ0IG9mIHRoZSBwcm9ncmFtIGFuZCBkZXRlcm1pbmUgaWYgYSBzcGVjaWZpYyBhY3Rpb24gaXMgYWxsb3dlZAovLyBIZXJlLCBhY3Rpb24gcmVmZXJzIHRvIHRoZSBPbkNvbXBsZXRlIGluIGNvbWJpbmF0aW9uIHdpdGggd2hldGhlciB0aGUgYXBwIGlzIGJlaW5nIGNyZWF0ZWQgb3IgY2FsbGVkCi8vIEV2ZXJ5IHBvc3NpYmxlIGFjdGlvbiBmb3IgdGhpcyBjb250cmFjdCBpcyByZXByZXNlbnRlZCBpbiB0aGUgc3dpdGNoIHN0YXRlbWVudAovLyBJZiB0aGUgYWN0aW9uIGlzIG5vdCBpbXBsbWVudGVkIGluIHRoZSBjb250cmFjdCwgaXRzIHJlcHNlY3RpdmUgYnJhbmNoIHdpbGwgYmUgIk5PVF9JTVBMTUVOVEVEIiB3aGljaCBqdXN0IGNvbnRhaW5zICJlcnIiCnR4biBBcHBsaWNhdGlvbklECmludCAwCj4KaW50IDYKKgp0eG4gT25Db21wbGV0aW9uCisKc3dpdGNoIGNyZWF0ZV9Ob09wIE5PVF9JTVBMRU1FTlRFRCBOT1RfSU1QTEVNRU5URUQgTk9UX0lNUExFTUVOVEVEIE5PVF9JTVBMRU1FTlRFRCBOT1RfSU1QTEVNRU5URUQgY2FsbF9Ob09wCgpOT1RfSU1QTEVNRU5URUQ6CgllcnIKCi8vIGNyZWF0ZVN0cmluZ0JveChzdHJpbmcscGF5KXZvaWQKYWJpX3JvdXRlX2NyZWF0ZVN0cmluZ0JveDoKCWJ5dGUgMHggLy8gcHVzaCBlbXB0eSBieXRlcyB0byBmaWxsIHRoZSBzdGFjayBmcmFtZSBmb3IgdGhpcyBzdWJyb3V0aW5lJ3MgbG9jYWwgdmFyaWFibGVzCgoJLy8gZGF0YTogc3RyaW5nCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglleHRyYWN0IDIgMAoKCS8vIE1CUlBheW1lbnQ6IHBheQoJdHhuIEdyb3VwSW5kZXgKCWludCAxCgktCglkdXAKCWd0eG5zIFR5cGVFbnVtCglpbnQgcGF5Cgk9PQoJYXNzZXJ0CgoJLy8gZXhlY3V0ZSBjcmVhdGVTdHJpbmdCb3goc3RyaW5nLHBheSl2b2lkCgljYWxsc3ViIGNyZWF0ZVN0cmluZ0JveAoJaW50IDEKCXJldHVybgoKY3JlYXRlU3RyaW5nQm94OgoJcHJvdG8gMyAwCgoJLy8gY29udHJhY3RzL2JveE1hbmFnZXIuYWxnby50czo4CgkvLyBhc3NlcnQoIXRoaXMubXlCb3godGhpcy50eG4uc2VuZGVyKS5leGlzdHMpCgl0eG4gU2VuZGVyCglib3hfbGVuCglzd2FwCglwb3AKCSEKCWFzc2VydAoKCS8vIGNvbnRyYWN0cy9ib3hNYW5hZ2VyLmFsZ28udHM6MTAKCS8vIHByZUJveE1CUiA9IHRoaXMuYXBwLmFkZHJlc3MubWluQmFsYW5jZQoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWFjY3RfcGFyYW1zX2dldCBBY2N0TWluQmFsYW5jZQoJYXNzZXJ0CglmcmFtZV9idXJ5IC0zIC8vIHByZUJveE1CUjogdWludDY0CgoJLy8gY29udHJhY3RzL2JveE1hbmFnZXIuYWxnby50czoxMQoJLy8gdGhpcy5teUJveCh0aGlzLnR4bi5zZW5kZXIpLnZhbHVlID0gZGF0YQoJdHhuIFNlbmRlcgoJZHVwCglib3hfZGVsCglwb3AKCWZyYW1lX2RpZyAtMiAvLyBkYXRhOiBieXRlcwoJZHVwCglsZW4KCWl0b2IKCWV4dHJhY3QgNiAyCglzd2FwCgljb25jYXQKCWJveF9wdXQKCgkvLyBjb250cmFjdHMvYm94TWFuYWdlci5hbGdvLnRzOjEzCgkvLyB2ZXJpZnlUeG4oTUJSUGF5bWVudCwgewoJLy8gICAgICAgcmVjZWl2ZXI6IHRoaXMuYXBwLmFkZHJlc3MsCgkvLyAgICAgICBhbW91bnQ6IHRoaXMuYXBwLmFkZHJlc3MubWluQmFsYW5jZSAtIHByZUJveE1CUiwKCS8vICAgICB9KQoJLy8gdmVyaWZ5IHJlY2VpdmVyCglmcmFtZV9kaWcgLTEgLy8gTUJSUGF5bWVudDogcGF5CglndHhucyBSZWNlaXZlcgoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCT09Cglhc3NlcnQKCgkvLyB2ZXJpZnkgYW1vdW50CglmcmFtZV9kaWcgLTEgLy8gTUJSUGF5bWVudDogcGF5CglndHhucyBBbW91bnQKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglhY2N0X3BhcmFtc19nZXQgQWNjdE1pbkJhbGFuY2UKCWFzc2VydAoJZnJhbWVfZGlnIC0zIC8vIHByZUJveE1CUjogdWludDY0CgktCgk9PQoJYXNzZXJ0CglyZXRzdWIKCi8vIGdldFN0cmluZ0JveERhdGEoKXN0cmluZwphYmlfcm91dGVfZ2V0U3RyaW5nQm94RGF0YToKCS8vIGV4ZWN1dGUgZ2V0U3RyaW5nQm94RGF0YSgpc3RyaW5nCgljYWxsc3ViIGdldFN0cmluZ0JveERhdGEKCWludCAxCglyZXR1cm4KCmdldFN0cmluZ0JveERhdGE6Cglwcm90byAwIDAKCgkvLyBjb250cmFjdHMvYm94TWFuYWdlci5hbGdvLnRzOjIwCgkvLyByZXR1cm4gdGhpcy5teUJveCh0aGlzLnR4bi5zZW5kZXIpLnZhbHVlOwoJdHhuIFNlbmRlcgoJYm94X2dldAoJYXNzZXJ0CglleHRyYWN0IDIgMAoJZHVwCglsZW4KCWl0b2IKCWV4dHJhY3QgNiAyCglzd2FwCgljb25jYXQKCWJ5dGUgMHgxNTFmN2M3NQoJc3dhcAoJY29uY2F0Cglsb2cKCXJldHN1YgoKLy8gdXBkYXRlU3RyaW5nQm94KHN0cmluZyxwYXkpdm9pZAphYmlfcm91dGVfdXBkYXRlU3RyaW5nQm94OgoJYnl0ZSAweDsgZHVwIC8vIHB1c2ggZW1wdHkgYnl0ZXMgdG8gZmlsbCB0aGUgc3RhY2sgZnJhbWUgZm9yIHRoaXMgc3Vicm91dGluZSdzIGxvY2FsIHZhcmlhYmxlcwoKCS8vIGRhdGE6IHN0cmluZwoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZXh0cmFjdCAyIDAKCgkvLyBNQlJQYXltZW50OiBwYXkKCXR4biBHcm91cEluZGV4CglpbnQgMQoJLQoJZHVwCglndHhucyBUeXBlRW51bQoJaW50IHBheQoJPT0KCWFzc2VydAoKCS8vIGV4ZWN1dGUgdXBkYXRlU3RyaW5nQm94KHN0cmluZyxwYXkpdm9pZAoJY2FsbHN1YiB1cGRhdGVTdHJpbmdCb3gKCWludCAxCglyZXR1cm4KCnVwZGF0ZVN0cmluZ0JveDoKCXByb3RvIDQgMAoKCS8vIGNvbnRyYWN0cy9ib3hNYW5hZ2VyLmFsZ28udHM6MjQKCS8vIGFzc2VydCh0aGlzLm15Qm94KHRoaXMudHhuLnNlbmRlcikuZXhpc3RzKQoJdHhuIFNlbmRlcgoJYm94X2xlbgoJc3dhcAoJcG9wCglhc3NlcnQKCgkvLyBjb250cmFjdHMvYm94TWFuYWdlci5hbGdvLnRzOjI1CgkvLyBwcmVCb3hNQlIgPSB0aGlzLmFwcC5hZGRyZXNzLm1pbkJhbGFuY2UKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglhY2N0X3BhcmFtc19nZXQgQWNjdE1pbkJhbGFuY2UKCWFzc2VydAoJZnJhbWVfYnVyeSAtMyAvLyBwcmVCb3hNQlI6IHVpbnQ2NAoKCS8vIGNvbnRyYWN0cy9ib3hNYW5hZ2VyLmFsZ28udHM6MjYKCS8vIHRoaXMubXlCb3godGhpcy50eG4uc2VuZGVyKS52YWx1ZSA9IGRhdGEKCXR4biBTZW5kZXIKCWR1cAoJYm94X2RlbAoJcG9wCglmcmFtZV9kaWcgLTIgLy8gZGF0YTogYnl0ZXMKCWR1cAoJbGVuCglpdG9iCglleHRyYWN0IDYgMgoJc3dhcAoJY29uY2F0Cglib3hfcHV0CgoJLy8gY29udHJhY3RzL2JveE1hbmFnZXIuYWxnby50czoyNwoJLy8gYmFsYW5jZURpZmYgPQoJLy8gICAgICAgdGhpcy5hcHAuYWRkcmVzcy5taW5CYWxhbmNlIC0gcHJlQm94TUJSIDwgMAoJLy8gICAgICAgICA/IHByZUJveE1CUiAtIHRoaXMuYXBwLmFkZHJlc3MubWluQmFsYW5jZQoJLy8gICAgICAgICA6IHRoaXMuYXBwLmFkZHJlc3MubWluQmFsYW5jZSAtIHByZUJveE1CUgoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWFjY3RfcGFyYW1zX2dldCBBY2N0TWluQmFsYW5jZQoJYXNzZXJ0CglmcmFtZV9kaWcgLTMgLy8gcHJlQm94TUJSOiB1aW50NjQKCS0KCWludCAwCgk8CglieiB0ZXJuYXJ5MV9mYWxzZQoJZnJhbWVfZGlnIC0zIC8vIHByZUJveE1CUjogdWludDY0CglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJYWNjdF9wYXJhbXNfZ2V0IEFjY3RNaW5CYWxhbmNlCglhc3NlcnQKCS0KCWIgdGVybmFyeTFfZW5kCgp0ZXJuYXJ5MV9mYWxzZToKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglhY2N0X3BhcmFtc19nZXQgQWNjdE1pbkJhbGFuY2UKCWFzc2VydAoJZnJhbWVfZGlnIC0zIC8vIHByZUJveE1CUjogdWludDY0CgktCgp0ZXJuYXJ5MV9lbmQ6CglmcmFtZV9idXJ5IC00IC8vIGJhbGFuY2VEaWZmOiB1aW50NjQKCgkvLyBjb250cmFjdHMvYm94TWFuYWdlci5hbGdvLnRzOjMyCgkvLyB2ZXJpZnlUeG4oTUJSUGF5bWVudCwgewoJLy8gICAgICAgcmVjZWl2ZXI6IHRoaXMuYXBwLmFkZHJlc3MsCgkvLyAgICAgICBhbW91bnQ6IGJhbGFuY2VEaWZmLAoJLy8gICAgIH0pCgkvLyB2ZXJpZnkgcmVjZWl2ZXIKCWZyYW1lX2RpZyAtMSAvLyBNQlJQYXltZW50OiBwYXkKCWd0eG5zIFJlY2VpdmVyCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJPT0KCWFzc2VydAoKCS8vIHZlcmlmeSBhbW91bnQKCWZyYW1lX2RpZyAtMSAvLyBNQlJQYXltZW50OiBwYXkKCWd0eG5zIEFtb3VudAoJZnJhbWVfZGlnIC00IC8vIGJhbGFuY2VEaWZmOiB1aW50NjQKCT09Cglhc3NlcnQKCXJldHN1YgoKYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uOgoJaW50IDEKCXJldHVybgoKY3JlYXRlX05vT3A6CgltZXRob2QgImNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uCgllcnIKCmNhbGxfTm9PcDoKCW1ldGhvZCAiY3JlYXRlU3RyaW5nQm94KHBheSxzdHJpbmcpdm9pZCIKCW1ldGhvZCAiZ2V0U3RyaW5nQm94RGF0YSgpc3RyaW5nIgoJbWV0aG9kICJ1cGRhdGVTdHJpbmdCb3gocGF5LHN0cmluZyl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggYWJpX3JvdXRlX2NyZWF0ZVN0cmluZ0JveCBhYmlfcm91dGVfZ2V0U3RyaW5nQm94RGF0YSBhYmlfcm91dGVfdXBkYXRlU3RyaW5nQm94CgllcnI=",
     "clear": "I3ByYWdtYSB2ZXJzaW9uIDk="
   },
   "contract": {
@@ -83,7 +83,7 @@ export const APP_SPEC: AppSpec = {
     "desc": "",
     "methods": [
       {
-        "name": "boxCreate",
+        "name": "createStringBox",
         "args": [
           {
             "name": "MBRPayment",
@@ -103,7 +103,7 @@ export const APP_SPEC: AppSpec = {
         }
       },
       {
-        "name": "getBoxData",
+        "name": "getStringBoxData",
         "args": [],
         "desc": "",
         "returns": {
@@ -112,7 +112,7 @@ export const APP_SPEC: AppSpec = {
         }
       },
       {
-        "name": "boxUpdate",
+        "name": "updateStringBox",
         "args": [
           {
             "name": "MBRPayment",
@@ -199,7 +199,7 @@ export type Boxmanager = {
    * Maps method signatures / names to their argument and return types.
    */
   methods:
-    & Record<'boxCreate(pay,string)void' | 'boxCreate', {
+    & Record<'createStringBox(pay,string)void' | 'createStringBox', {
       argsObj: {
         MBRPayment: TransactionToSign | Transaction | Promise<SendTransactionResult>
         data: string
@@ -207,13 +207,13 @@ export type Boxmanager = {
       argsTuple: [MBRPayment: TransactionToSign | Transaction | Promise<SendTransactionResult>, data: string]
       returns: void
     }>
-    & Record<'getBoxData()string' | 'getBoxData', {
+    & Record<'getStringBoxData()string' | 'getStringBoxData', {
       argsObj: {
       }
       argsTuple: []
       returns: string
     }>
-    & Record<'boxUpdate(pay,string)void' | 'boxUpdate', {
+    & Record<'updateStringBox(pay,string)void' | 'updateStringBox', {
       argsObj: {
         MBRPayment: TransactionToSign | Transaction | Promise<SendTransactionResult>
         data: string
@@ -300,43 +300,43 @@ export abstract class BoxmanagerCallFactory {
   }
 
   /**
-   * Constructs a no op call for the boxCreate(pay,string)void ABI method
+   * Constructs a no op call for the createStringBox(pay,string)void ABI method
    *
    * @param args Any args for the contract call
    * @param params Any additional parameters for the call
    * @returns A TypedCallParams object for the call
    */
-  static boxCreate(args: MethodArgs<'boxCreate(pay,string)void'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
+  static createStringBox(args: MethodArgs<'createStringBox(pay,string)void'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
     return {
-      method: 'boxCreate(pay,string)void' as const,
+      method: 'createStringBox(pay,string)void' as const,
       methodArgs: Array.isArray(args) ? args : [args.MBRPayment, args.data],
       ...params,
     }
   }
   /**
-   * Constructs a no op call for the getBoxData()string ABI method
+   * Constructs a no op call for the getStringBoxData()string ABI method
    *
    * @param args Any args for the contract call
    * @param params Any additional parameters for the call
    * @returns A TypedCallParams object for the call
    */
-  static getBoxData(args: MethodArgs<'getBoxData()string'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
+  static getStringBoxData(args: MethodArgs<'getStringBoxData()string'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
     return {
-      method: 'getBoxData()string' as const,
+      method: 'getStringBoxData()string' as const,
       methodArgs: Array.isArray(args) ? args : [],
       ...params,
     }
   }
   /**
-   * Constructs a no op call for the boxUpdate(pay,string)void ABI method
+   * Constructs a no op call for the updateStringBox(pay,string)void ABI method
    *
    * @param args Any args for the contract call
    * @param params Any additional parameters for the call
    * @returns A TypedCallParams object for the call
    */
-  static boxUpdate(args: MethodArgs<'boxUpdate(pay,string)void'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
+  static updateStringBox(args: MethodArgs<'updateStringBox(pay,string)void'>, params: AppClientCallCoreParams & CoreAppCallArgs) {
     return {
-      method: 'boxUpdate(pay,string)void' as const,
+      method: 'updateStringBox(pay,string)void' as const,
       methodArgs: Array.isArray(args) ? args : [args.MBRPayment, args.data],
       ...params,
     }
@@ -441,36 +441,36 @@ export class BoxmanagerClient {
   }
 
   /**
-   * Calls the boxCreate(pay,string)void ABI method.
+   * Calls the createStringBox(pay,string)void ABI method.
    *
    * @param args The arguments for the contract call
    * @param params Any additional parameters for the call
    * @returns The result of the call
    */
-  public boxCreate(args: MethodArgs<'boxCreate(pay,string)void'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
-    return this.call(BoxmanagerCallFactory.boxCreate(args, params))
+  public createStringBox(args: MethodArgs<'createStringBox(pay,string)void'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
+    return this.call(BoxmanagerCallFactory.createStringBox(args, params))
   }
 
   /**
-   * Calls the getBoxData()string ABI method.
+   * Calls the getStringBoxData()string ABI method.
    *
    * @param args The arguments for the contract call
    * @param params Any additional parameters for the call
    * @returns The result of the call
    */
-  public getBoxData(args: MethodArgs<'getBoxData()string'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
-    return this.call(BoxmanagerCallFactory.getBoxData(args, params))
+  public getStringBoxData(args: MethodArgs<'getStringBoxData()string'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
+    return this.call(BoxmanagerCallFactory.getStringBoxData(args, params))
   }
 
   /**
-   * Calls the boxUpdate(pay,string)void ABI method.
+   * Calls the updateStringBox(pay,string)void ABI method.
    *
    * @param args The arguments for the contract call
    * @param params Any additional parameters for the call
    * @returns The result of the call
    */
-  public boxUpdate(args: MethodArgs<'boxUpdate(pay,string)void'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
-    return this.call(BoxmanagerCallFactory.boxUpdate(args, params))
+  public updateStringBox(args: MethodArgs<'updateStringBox(pay,string)void'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
+    return this.call(BoxmanagerCallFactory.updateStringBox(args, params))
   }
 
   public compose(): BoxmanagerComposer {
@@ -479,18 +479,18 @@ export class BoxmanagerClient {
     let promiseChain:Promise<unknown> = Promise.resolve()
     const resultMappers: Array<undefined | ((x: any) => any)> = []
     return {
-      boxCreate(args: MethodArgs<'boxCreate(pay,string)void'>, params?: AppClientCallCoreParams & CoreAppCallArgs) {
-        promiseChain = promiseChain.then(() => client.boxCreate(args, {...params, sendParams: {...params?.sendParams, skipSending: true, atc}}))
+      createStringBox(args: MethodArgs<'createStringBox(pay,string)void'>, params?: AppClientCallCoreParams & CoreAppCallArgs) {
+        promiseChain = promiseChain.then(() => client.createStringBox(args, {...params, sendParams: {...params?.sendParams, skipSending: true, atc}}))
         resultMappers.push(undefined)
         return this
       },
-      getBoxData(args: MethodArgs<'getBoxData()string'>, params?: AppClientCallCoreParams & CoreAppCallArgs) {
-        promiseChain = promiseChain.then(() => client.getBoxData(args, {...params, sendParams: {...params?.sendParams, skipSending: true, atc}}))
+      getStringBoxData(args: MethodArgs<'getStringBoxData()string'>, params?: AppClientCallCoreParams & CoreAppCallArgs) {
+        promiseChain = promiseChain.then(() => client.getStringBoxData(args, {...params, sendParams: {...params?.sendParams, skipSending: true, atc}}))
         resultMappers.push(undefined)
         return this
       },
-      boxUpdate(args: MethodArgs<'boxUpdate(pay,string)void'>, params?: AppClientCallCoreParams & CoreAppCallArgs) {
-        promiseChain = promiseChain.then(() => client.boxUpdate(args, {...params, sendParams: {...params?.sendParams, skipSending: true, atc}}))
+      updateStringBox(args: MethodArgs<'updateStringBox(pay,string)void'>, params?: AppClientCallCoreParams & CoreAppCallArgs) {
+        promiseChain = promiseChain.then(() => client.updateStringBox(args, {...params, sendParams: {...params?.sendParams, skipSending: true, atc}}))
         resultMappers.push(undefined)
         return this
       },
@@ -520,31 +520,31 @@ export class BoxmanagerClient {
 }
 export type BoxmanagerComposer<TReturns extends [...any[]] = []> = {
   /**
-   * Calls the boxCreate(pay,string)void ABI method.
+   * Calls the createStringBox(pay,string)void ABI method.
    *
    * @param args The arguments for the contract call
    * @param params Any additional parameters for the call
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
    */
-  boxCreate(args: MethodArgs<'boxCreate(pay,string)void'>, params?: AppClientCallCoreParams & CoreAppCallArgs): BoxmanagerComposer<[...TReturns, MethodReturn<'boxCreate(pay,string)void'>]>
+  createStringBox(args: MethodArgs<'createStringBox(pay,string)void'>, params?: AppClientCallCoreParams & CoreAppCallArgs): BoxmanagerComposer<[...TReturns, MethodReturn<'createStringBox(pay,string)void'>]>
 
   /**
-   * Calls the getBoxData()string ABI method.
+   * Calls the getStringBoxData()string ABI method.
    *
    * @param args The arguments for the contract call
    * @param params Any additional parameters for the call
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
    */
-  getBoxData(args: MethodArgs<'getBoxData()string'>, params?: AppClientCallCoreParams & CoreAppCallArgs): BoxmanagerComposer<[...TReturns, MethodReturn<'getBoxData()string'>]>
+  getStringBoxData(args: MethodArgs<'getStringBoxData()string'>, params?: AppClientCallCoreParams & CoreAppCallArgs): BoxmanagerComposer<[...TReturns, MethodReturn<'getStringBoxData()string'>]>
 
   /**
-   * Calls the boxUpdate(pay,string)void ABI method.
+   * Calls the updateStringBox(pay,string)void ABI method.
    *
    * @param args The arguments for the contract call
    * @param params Any additional parameters for the call
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
    */
-  boxUpdate(args: MethodArgs<'boxUpdate(pay,string)void'>, params?: AppClientCallCoreParams & CoreAppCallArgs): BoxmanagerComposer<[...TReturns, MethodReturn<'boxUpdate(pay,string)void'>]>
+  updateStringBox(args: MethodArgs<'updateStringBox(pay,string)void'>, params?: AppClientCallCoreParams & CoreAppCallArgs): BoxmanagerComposer<[...TReturns, MethodReturn<'updateStringBox(pay,string)void'>]>
 
   /**
    * Makes a clear_state call to an existing instance of the Boxmanager smart contract.

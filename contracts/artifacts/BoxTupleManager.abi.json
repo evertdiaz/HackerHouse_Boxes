@@ -1,9 +1,9 @@
 {
-  "name": "Boxmanager",
+  "name": "BoxTupleManager",
   "desc": "",
   "methods": [
     {
-      "name": "createStringBox",
+      "name": "createTupleBox",
       "args": [
         {
           "name": "MBRPayment",
@@ -11,7 +11,12 @@
           "desc": ""
         },
         {
-          "name": "data",
+          "name": "name",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "company",
           "type": "string",
           "desc": ""
         }
@@ -23,31 +28,31 @@
       }
     },
     {
-      "name": "getStringBoxData",
+      "name": "updateTupleField",
+      "args": [
+        {
+          "name": "field",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "getTupleBoxData",
       "args": [],
       "desc": "",
       "returns": {
-        "type": "string",
-        "desc": ""
-      }
-    },
-    {
-      "name": "updateStringBox",
-      "args": [
-        {
-          "name": "MBRPayment",
-          "type": "pay",
-          "desc": ""
-        },
-        {
-          "name": "data",
-          "type": "string",
-          "desc": ""
-        }
-      ],
-      "desc": "",
-      "returns": {
-        "type": "void",
+        "type": "(string,string)",
         "desc": ""
       }
     },

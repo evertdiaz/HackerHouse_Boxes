@@ -1,5 +1,9 @@
 # TEALScript Project
 
+## Commands to compile new files
+- `npx tealscript contracts/boxTupleManager.algo.ts contracts/artifacts`
+- `npx algokitgen generate -a contracts/artifacts/BoxTupleManager.json -o contracts/clients/BoxTupleManagerClient.ts`
+
 ## Documentation
 
 For TEALScript documentation, go to https://tealscript.algo.xyz

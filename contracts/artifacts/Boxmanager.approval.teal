@@ -22,8 +22,8 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// boxCreate(string,pay)void
-abi_route_boxCreate:
+// createStringBox(string,pay)void
+abi_route_createStringBox:
 	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
 
 	// data: string
@@ -40,12 +40,12 @@ abi_route_boxCreate:
 	==
 	assert
 
-	// execute boxCreate(string,pay)void
-	callsub boxCreate
+	// execute createStringBox(string,pay)void
+	callsub createStringBox
 	int 1
 	return
 
-boxCreate:
+createStringBox:
 	proto 3 0
 
 	// contracts/boxManager.algo.ts:8
@@ -103,14 +103,14 @@ boxCreate:
 	assert
 	retsub
 
-// getBoxData()string
-abi_route_getBoxData:
-	// execute getBoxData()string
-	callsub getBoxData
+// getStringBoxData()string
+abi_route_getStringBoxData:
+	// execute getStringBoxData()string
+	callsub getStringBoxData
 	int 1
 	return
 
-getBoxData:
+getStringBoxData:
 	proto 0 0
 
 	// contracts/boxManager.algo.ts:20
@@ -131,8 +131,8 @@ getBoxData:
 	log
 	retsub
 
-// boxUpdate(string,pay)void
-abi_route_boxUpdate:
+// updateStringBox(string,pay)void
+abi_route_updateStringBox:
 	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
 
 	// data: string
@@ -149,12 +149,12 @@ abi_route_boxUpdate:
 	==
 	assert
 
-	// execute boxUpdate(string,pay)void
-	callsub boxUpdate
+	// execute updateStringBox(string,pay)void
+	callsub updateStringBox
 	int 1
 	return
 
-boxUpdate:
+updateStringBox:
 	proto 4 0
 
 	// contracts/boxManager.algo.ts:24
@@ -248,9 +248,9 @@ create_NoOp:
 	err
 
 call_NoOp:
-	method "boxCreate(pay,string)void"
-	method "getBoxData()string"
-	method "boxUpdate(pay,string)void"
+	method "createStringBox(pay,string)void"
+	method "getStringBoxData()string"
+	method "updateStringBox(pay,string)void"
 	txna ApplicationArgs 0
-	match abi_route_boxCreate abi_route_getBoxData abi_route_boxUpdate
+	match abi_route_createStringBox abi_route_getStringBoxData abi_route_updateStringBox
 	err

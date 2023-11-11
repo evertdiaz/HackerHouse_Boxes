@@ -4,7 +4,7 @@ import { Contract } from '@algorandfoundation/tealscript';
 class Boxmanager extends Contract {
   myBox = BoxMap<Address, string>();
 
-  boxCreate(MBRPayment: PayTxn, data: string): void {
+  createStringBox(MBRPayment: PayTxn, data: string): void {
     assert(!this.myBox(this.txn.sender).exists);
 
     const preBoxMBR = this.app.address.minBalance;
@@ -16,11 +16,11 @@ class Boxmanager extends Contract {
     });
   }
 
-  getBoxData(): string {
+  getStringBoxData(): string {
     return this.myBox(this.txn.sender).value;
   }
 
-  boxUpdate(MBRPayment: PayTxn, data: string): void {
+  updateStringBox(MBRPayment: PayTxn, data: string): void {
     assert(this.myBox(this.txn.sender).exists);
     const preBoxMBR = this.app.address.minBalance;
     this.myBox(this.txn.sender).value = data;
